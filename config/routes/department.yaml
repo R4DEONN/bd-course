@@ -1,0 +1,19 @@
+departments_page:
+  path: /
+  controller: App\Controller\DepartmentController::index
+  methods: GET
+
+add_department_page:
+  path: /department/add
+  controller: App\Controller\DepartmentController::getAddDepartmentPage
+  methods: GET
+
+add_department:
+  path: /department/add
+  controller: App\Controller\DepartmentController::addDepartment
+  methods: POST
+
+department_page:
+  path: /department/{departmentId}
+  methods: GET
+  controller: App\Controller\DepartmentController::getDepartmentPage

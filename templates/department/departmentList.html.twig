@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Department List{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="/css/departmentList.css"/>
+{% endblock %}
+
+{% block body %}
+	<header class="header"></header>
+	<section class="department-list">
+		<div class="department-list__header">
+			<h1 class="department-list__title">Список филиалов</h1>
+			<button onclick="location.href='./department/add';" class="department-list__add-button">Добавить филиал</button>
+		</div>
+		<table class="department-list__table">
+			<thead class="department-list__table-header">
+			<tr class="department-list__row">
+				<th class="department-list__city">Город</th>
+				<th class="department-list__address">Адрес</th>
+				<th class="department-list__workers-count">Количество сотрудников</th>
+				<th class="department-list__edit-button"></th>
+				<th class="department-list__delete-button"></th>
+			</tr>
+			</thead>
+			<tbody>
+			{% for department in departments %}
+				<tr onclick="location.href='./department/{{ department.id }}';" class="department-list__row">
+					<td class="department-list__city">{{ department.city }}</td>
+					<td class="department-list__address">{{ department.address }}</td>
+					<td class="department-list__workers-count">{{ department.workersCount }}</td>
+					<td class="department-list__edit-button">
+						<button class="button"><img src="/edit_button.svg"  alt="edit button"/></button>
+					</td>
+					<td class="department-list__delete-button">
+						<button class="button"><img src="/delete_button.svg"  alt="delete button"/></button>
+					</td>
+				</tr>
+			{% endfor %}
+			</tbody>
+		</table>
+	</section>
+{% endblock %}

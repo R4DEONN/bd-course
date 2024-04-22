@@ -1,0 +1,104 @@
+.header
+{
+    height: 75px;
+    background: #3CB46E;
+}
+
+.department-list
+{
+    margin: 61px 162px 0;
+}
+
+.department-list__header
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.department-list__title
+{
+    font: 400 32px/1.23 "Roboto", sans-serif;
+}
+
+.department-list__add-button
+{
+    padding: 10px 22px;
+
+    font: 400 14px/0.88 "Roboto", sans-serif;
+    color: #FFFFFF;
+
+    border-radius: 10px;
+    background: #3CB46E;
+    border: none;
+    cursor: pointer;
+}
+
+.department-list__table
+{
+    margin-top: 17px;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.department-list__table-header
+{
+    background: #76D19C;
+}
+
+.department-list__row
+{
+    cursor: pointer;
+    height: 54px;
+}
+
+.department-list__city
+{
+    padding-left: 30px;
+    width: 30%;
+    text-align: left;
+}
+
+.department-list__address
+{
+    width: 30%;
+    text-align: left;
+}
+
+.department-list__workers-count
+{
+    width: 25%;
+    text-align: center;
+}
+
+.department-list__edit-button
+{
+    text-align: center;
+    width: 5%;
+}
+
+.department-list__delete-button
+{
+    text-align: center;
+    padding-right: 30px;
+    width: 10%;
+}
+
+.button
+{
+    background: #FFFFFF;
+    border: none;
+    cursor: pointer;
+}
+
+.department-list__full-name
+{
+    padding-left: 30px;
+    width: 45%;
+    text-align: left;
+}
+
+.department-list__job-title
+{
+    width: 40%;
+    text-align: left;
+}

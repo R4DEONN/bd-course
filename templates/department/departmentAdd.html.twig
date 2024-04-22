@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Department List{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/departmentAdd.css"/>
+{% endblock %}
+
+{% block body %}
+    <section class="add-department-form">
+        <h1 class="add-department-form__title">Добавить филиал</h1>
+        <form method="post" action="/department/add">
+            <div class="add-department-form__row">
+                <label class="add-department-form__label" for="city">Город</label>
+                <input class="add-department-form__input" name="city" id="city" type="text" />
+            </div>
+            <div class="add-department-form__row">
+                <label class="add-department-form__label" for="address">Адрес</label>
+                <input class="add-department-form__input" name="address" id="address" type="text" />
+            </div>
+            <input type="submit" value="Добавить">
+        </form>
+    </section>
+{% endblock %}

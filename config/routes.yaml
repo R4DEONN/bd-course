@@ -3,3 +3,7 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+department_routes:
+    resource: 'routes/department.yaml'
+    type: yaml
