@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Repository;
 
@@ -9,11 +10,11 @@ use PDO;
 
 readonly class DepartmentRepository
 {
-	private PDO $connection;
+	private Connection $connection;
 
 	public function __construct()
 	{
-		$this->connection = new PDO(
+		$this->connection = new Connection(
 			$_ENV['APP_DATABASE_DSN'],
 			$_ENV['DATABASE_USER'],
 			$_ENV['DATABASE_PASSWORD'],
@@ -32,15 +33,15 @@ readonly class DepartmentRepository
 			ORDER BY department_id
 			SQL;
 
-		$departments_assoc = $this->connection->query($query)->fetchAll(PDO::FETCH_ASSOC);
+		$departmentsData = $this->connection->execute($query, [])->fetchAll(PDO::FETCH_ASSOC);
 		$departments = [];
-		foreach ($departments_assoc as $department_assoc) {
-			$workers = $this->findWorkersByDepartmentId($department_assoc['department_id']);
+		foreach ($departmentsData as $departmentData) {
+			$workers = $this->findWorkersByDepartmentId($departmentData['department_id']);
 
 			$departments[] = new Department(
-				$department_assoc['department_id'],
-				$department_assoc['city'],
-				$department_assoc['address'],
+				$departmentData['department_id'],
+				$departmentData['city'],
+				$departmentData['address'],
 				$workers,
 			);
 		}
@@ -62,29 +63,31 @@ readonly class DepartmentRepository
 				FROM worker
 				where department_id = :department_id
 				SQL;
-		$statement = $this->connection->prepare($query);
-		$statement->execute([
+		$statement = $this->connection->execute($query, [
 			'department_id' => $id,
 		]);
 
-		$workers_assoc = $statement->fetchAll(PDO::FETCH_ASSOC);
-		foreach ($workers_assoc as $worker) {
+		$workersData = $statement->fetchAll(PDO::FETCH_ASSOC);
+		foreach ($workersData as $workerData) {
 			$workers[] = new Worker(
-				$worker['worker_id'],
-				$worker['full_name'],
-				$worker['job_title'],
-				$worker['phone'],
-				$worker['email'],
-				$worker['gender'],
-				new \DateTimeImmutable($worker['birth_date']),
-				new \DateTimeImmutable($worker['hire_date']),
-				$worker['description'],
+				$workerData['worker_id'],
+				$workerData['full_name'],
+				$workerData['job_title'],
+				$workerData['phone'],
+				$workerData['email'],
+				(bool)$workerData['gender'],
+				new \DateTimeImmutable($workerData['birth_date']),
+				new \DateTimeImmutable($workerData['hire_date']),
+				$workerData['description'],
 			);
 		}
 
 		return $workers;
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function findById(int $id): ?Department
 	{
 		$query = <<<SQL
@@ -93,9 +96,8 @@ readonly class DepartmentRepository
 			WHERE department_id = :department_id
 			SQL;
 
-		$statement = $this->connection->prepare($query);
-		$statement->execute([
-			'department_id' => $id
+		$statement = $this->connection->execute($query, [
+			'department_id' => $id,
 		]);
 
 		$department = $statement->fetch(PDO::FETCH_ASSOC);
@@ -115,12 +117,24 @@ readonly class DepartmentRepository
 			VALUES 
 			    (:city, :address)
 			SQL;
-		$statement = $this->connection->prepare($query);
-		$statement->execute([
+		$statement = $this->connection->execute($query, [
 			':city' => $department->getCity(),
 			':address' => $department->getAddress(),
 		]);
 
-		return (int)$this->connection->lastInsertId();
+		return $this->connection->getLastInsertId();
+	}
+
+	public function deleteById(int $id): void
+	{
+		$query = <<<SQL
+			DELETE 
+			FROM department
+			WHERE department_id = :department_id
+			SQL;
+
+		$statement = $this->connection->execute($query, [
+			'department_id' => $id,
+		]);
 	}
 }

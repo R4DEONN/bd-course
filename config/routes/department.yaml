@@ -17,3 +17,8 @@ department_page:
   path: /department/{departmentId}
   methods: GET
   controller: App\Controller\DepartmentController::getDepartmentPage
+
+delete_department:
+  path: /department/delete/{departmentId}
+  controller: App\Controller\DepartmentController::deleteDepartment
+  methods: POST

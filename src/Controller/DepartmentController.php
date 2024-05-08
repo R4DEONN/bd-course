@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Controller;
 
@@ -45,6 +46,15 @@ class DepartmentController extends AbstractController
 		$id = $this->departmentRepository->add($newDepartment);
 		return $this->redirectToRoute('department_page', [
 			'departmentId' => $id,
+		]);
+	}
+
+	public function deleteDepartment(int $departmentId): Response
+	{
+		$this->departmentRepository->deleteById($departmentId);
+		$departments = $this->departmentRepository->listAll();
+		return $this->render('department/departments.html.twig.twig', [
+			'departments' => $departments,
 		]);
 	}
 

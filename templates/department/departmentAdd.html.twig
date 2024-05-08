@@ -4,9 +4,11 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" href="/css/departmentAdd.css"/>
+    <link rel="stylesheet" href="/css/departmentList.css"/>
 {% endblock %}
 
 {% block body %}
+    {% parent() %}
     <section class="add-department-form">
         <h1 class="add-department-form__title">Добавить филиал</h1>
         <form method="post" action="/department/add">
@@ -18,7 +20,7 @@
                 <label class="add-department-form__label" for="address">Адрес</label>
                 <input class="add-department-form__input" name="address" id="address" type="text" />
             </div>
-            <input type="submit" value="Добавить">
+            <input class="add-department-form__add-button button" type="submit" value="Добавить">
         </form>
     </section>
 {% endblock %}

@@ -47,8 +47,12 @@
 
 .department-list__row
 {
-    cursor: pointer;
     height: 54px;
+}
+
+.department-list__row_pointer
+{
+    cursor: pointer;
 }
 
 .department-list__city

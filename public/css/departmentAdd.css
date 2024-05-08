@@ -1,0 +1,51 @@
+body
+{
+    background: #DDDDDD;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.add-department-form
+{
+    position: relative;
+    border-radius: 25px;
+    background: #F6F6F6;
+    padding: 22px 27px;
+    width: 50%;
+    height: 60%;
+}
+
+.add-department-form__title
+{
+    margin-bottom: 29px;
+}
+
+.add-department-form__row
+{
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    margin-bottom: 19px;
+}
+
+.add-department-form__input
+{
+    border: none;
+    border-radius: 10px;
+    padding: 9px;
+}
+
+.add-department-form__add-button
+{
+    position: absolute;
+    right: 27px;
+    bottom: 31px;
+    background: #3CB46E !important;
+    padding: 11px 44px;
+    border-radius: 10px;
+    color: #FFFFFF;
+}
+

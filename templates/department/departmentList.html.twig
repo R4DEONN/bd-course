@@ -23,9 +23,13 @@
 				<th class="department-list__delete-button"></th>
 			</tr>
 			</thead>
-			<tbody>
+			<tbody id="tbody">
 			{% for department in departments %}
-				<tr onclick="location.href='./department/{{ department.id }}';" class="department-list__row">
+				<tr
+						class="department-list__row department-list__row_pointer"
+						hx-get="./department/{{ department.id }}"
+						hx-trigger="click"
+				>
 					<td class="department-list__city">{{ department.city }}</td>
 					<td class="department-list__address">{{ department.address }}</td>
 					<td class="department-list__workers-count">{{ department.workersCount }}</td>
@@ -33,9 +37,18 @@
 						<button class="button"><img src="/edit_button.svg"  alt="edit button"/></button>
 					</td>
 					<td class="department-list__delete-button">
-						<button class="button"><img src="/delete_button.svg"  alt="delete button"/></button>
+						<button onclick="e.stopPropagation()"
+								class="button"
+								hx-post="/department/delete/{{ department.id }}"
+								hx-trigger="click"
+								hx-target="#tbody"
+								hx-swap="outerHTML"
+						>
+							<img src="/delete_button.svg"  alt="delete button"/>
+						</button>
 					</td>
 				</tr>
+
 			{% endfor %}
 			</tbody>
 		</table>
