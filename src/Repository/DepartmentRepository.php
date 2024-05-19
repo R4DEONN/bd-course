@@ -3,22 +3,18 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use App\Common\Database\ConnectionProvider;
 use App\Entity\Department;
-use App\Entity\Worker;
 use Exception;
 use PDO;
 
 readonly class DepartmentRepository
 {
-	private Connection $connection;
+	private \App\Common\Database\Connection $connection;
 
 	public function __construct()
 	{
-		$this->connection = new Connection(
-			$_ENV['APP_DATABASE_DSN'],
-			$_ENV['DATABASE_USER'],
-			$_ENV['DATABASE_PASSWORD'],
-		);
+		$this->connection = ConnectionProvider::getConnection();
 	}
 
 	/**
@@ -33,56 +29,14 @@ readonly class DepartmentRepository
 			ORDER BY department_id
 			SQL;
 
-		$departmentsData = $this->connection->execute($query, [])->fetchAll(PDO::FETCH_ASSOC);
+		$departmentsData = $this->connection->execute($query)->fetchAll(PDO::FETCH_ASSOC);
 		$departments = [];
-		foreach ($departmentsData as $departmentData) {
-			$workers = $this->findWorkersByDepartmentId($departmentData['department_id']);
-
-			$departments[] = new Department(
-				$departmentData['department_id'],
-				$departmentData['city'],
-				$departmentData['address'],
-				$workers,
-			);
+		foreach ($departmentsData as $departmentData)
+		{
+			$departments[] = $this->hydrateDepartment($departmentData);
 		}
 
 		return $departments;
-	}
-
-	/**
-	 * @param int $id
-	 * @return Worker[]
-	 * @throws Exception
-	 */
-	private function findWorkersByDepartmentId(int $id): array
-	{
-		$workers = [];
-
-		$query = <<<SQL
-				SELECT *
-				FROM worker
-				where department_id = :department_id
-				SQL;
-		$statement = $this->connection->execute($query, [
-			'department_id' => $id,
-		]);
-
-		$workersData = $statement->fetchAll(PDO::FETCH_ASSOC);
-		foreach ($workersData as $workerData) {
-			$workers[] = new Worker(
-				$workerData['worker_id'],
-				$workerData['full_name'],
-				$workerData['job_title'],
-				$workerData['phone'],
-				$workerData['email'],
-				(bool)$workerData['gender'],
-				new \DateTimeImmutable($workerData['birth_date']),
-				new \DateTimeImmutable($workerData['hire_date']),
-				$workerData['description'],
-			);
-		}
-
-		return $workers;
 	}
 
 	/**
@@ -91,7 +45,10 @@ readonly class DepartmentRepository
 	public function findById(int $id): ?Department
 	{
 		$query = <<<SQL
-			SELECT *
+			SELECT
+			    department_id,
+			    city,
+			    address
 			FROM department
 			WHERE department_id = :department_id
 			SQL;
@@ -100,29 +57,28 @@ readonly class DepartmentRepository
 			'department_id' => $id,
 		]);
 
-		$department = $statement->fetch(PDO::FETCH_ASSOC);
-		return $department ? new Department(
-			$department['department_id'],
-			$department['city'],
-			$department['address'],
-			$this->findWorkersByDepartmentId($id),
+		$row = $statement->fetch(PDO::FETCH_ASSOC);
+		return $row ? new Department(
+			$row['department_id'],
+			$row['city'],
+			$row['address'],
 		) : null;
 	}
 
-	public function add(Department $department): int
+	public function save(Department $department): int
 	{
-		$query = <<<SQL
-			INSERT INTO department
-			    (city, address)
-			VALUES 
-			    (:city, :address)
-			SQL;
-		$statement = $this->connection->execute($query, [
-			':city' => $department->getCity(),
-			':address' => $department->getAddress(),
-		]);
+		$departmentId = $department->getId();
+		if ($departmentId)
+		{
+			$this->updateDepartment($department);
+		}
+		else
+		{
+			$departmentId = $this->insertDepartment($department);
+			$department->assignIdentifier($departmentId);
+		}
 
-		return $this->connection->getLastInsertId();
+		return $departmentId;
 	}
 
 	public function deleteById(int $id): void
@@ -136,5 +92,56 @@ readonly class DepartmentRepository
 		$statement = $this->connection->execute($query, [
 			'department_id' => $id,
 		]);
+	}
+
+	/**
+	 * @throws Exception
+	 */
+	private function hydrateDepartment(array $departmentData): Department
+	{
+		return new Department(
+			$departmentData['department_id'],
+			$departmentData['city'],
+			$departmentData['address'],
+		);
+	}
+
+	private function insertDepartment(Department $department): int
+	{
+		$query = <<<SQL
+			INSERT INTO department
+			    (city, address)
+			VALUES 
+			    (:city, :address)
+			SQL;
+		$this->connection->execute($query, [
+			':city' => $department->getCity(),
+			':address' => $department->getAddress(),
+		]);
+
+		return $this->connection->getLastInsertId();
+	}
+
+	private function updateDepartment(Department $department): void
+	{
+		$query = <<<SQL
+            UPDATE department
+            SET
+              department.department_id = :department_id,
+              city = :city,
+              address = :address
+            WHERE department_id = :department_id
+            SQL;
+		$params = [
+			':department_id' => $department->getId(),
+			':city' => $department->getCity(),
+			':address' => $department->getAddress()
+		];
+
+		$stmt = $this->connection->execute($query, $params);
+		if (!$stmt->rowCount())
+		{
+			throw new \RuntimeException("Optimistic lock failed for article {$department->getId()}");
+		}
 	}
 }

@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Entity\Data;
 
-class Worker
+class WorkerData
 {
-	private ?int $id;
+	private int $id;
 	private string $fullName;
 	private string $jobTitle;
 	private string $phone;
@@ -15,10 +15,12 @@ class Worker
 	private \DateTimeImmutable $hireDate;
 	private ?string $description;
 	private ?string $avatarPath;
+	private string $city;
+	private string $address;
 	private int $departmentId;
 
 	public function __construct(
-		?int $id,
+		int $id,
 		string $fullName,
 		string $jobTitle,
 		string $phone,
@@ -28,12 +30,15 @@ class Worker
 		\DateTimeImmutable $hireDate,
 		?string $description,
 		?string $avatarPath,
+		string $city,
+		string $address,
 		int $departmentId
-	)
-	{
+	) {
 		$this->id = $id;
 		$this->fullName = $fullName;
 		$this->jobTitle = $jobTitle;
+		$this->address = $address;
+		$this->city = $city;
 		$this->phone = $phone;
 		$this->email = $email;
 		$this->isMale = $isMale;
@@ -44,41 +49,12 @@ class Worker
 		$this->departmentId = $departmentId;
 	}
 
-	public function assignIdentifier(int $id): void
-	{
-		$this->id = $id;
-	}
-
 	/**
-	 * @return ?int
+	 * @return int
 	 */
-	public function getId(): ?int
+	public function getId(): int
 	{
 		return $this->id;
-	}
-
-	/**
-	 * @return \DateTimeImmutable
-	 */
-	public function getBirthDate(): \DateTimeImmutable
-	{
-		return $this->birthDate;
-	}
-
-	/**
-	 * @return ?string
-	 */
-	public function getDescription(): ?string
-	{
-		return $this->description;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getEmail(): string
-	{
-		return $this->email;
 	}
 
 	/**
@@ -90,19 +66,19 @@ class Worker
 	}
 
 	/**
-	 * @return \DateTimeImmutable
-	 */
-	public function getHireDate(): \DateTimeImmutable
-	{
-		return $this->hireDate;
-	}
-
-	/**
 	 * @return string
 	 */
 	public function getJobTitle(): string
 	{
 		return $this->jobTitle;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getAvatarPath(): ?string
+	{
+		return $this->avatarPath;
 	}
 
 	/**
@@ -114,6 +90,14 @@ class Worker
 	}
 
 	/**
+	 * @return string
+	 */
+	public function getEmail(): string
+	{
+		return $this->email;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function isMale(): bool
@@ -122,18 +106,50 @@ class Worker
 	}
 
 	/**
-	 * @return int
+	 * @return \DateTimeImmutable
 	 */
-	public function getDepartmentId(): int
+	public function getBirthDate(): \DateTimeImmutable
 	{
-		return $this->departmentId;
+		return $this->birthDate;
+	}
+
+	/**
+	 * @return \DateTimeImmutable
+	 */
+	public function getHireDate(): \DateTimeImmutable
+	{
+		return $this->hireDate;
 	}
 
 	/**
 	 * @return string|null
 	 */
-	public function getAvatarPath(): ?string
+	public function getDescription(): ?string
 	{
-		return $this->avatarPath;
+		return $this->description;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getCity(): string
+	{
+		return $this->city;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getAddress(): string
+	{
+		return $this->address;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getDepartmentId(): int
+	{
+		return $this->departmentId;
 	}
 }

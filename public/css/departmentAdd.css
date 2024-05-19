@@ -4,8 +4,12 @@ body
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100vw;
-    height: 100vh;
+    flex-direction: column;
+}
+
+.department-list__title
+{
+    margin-bottom: 10px;
 }
 
 .add-department-form
@@ -13,9 +17,9 @@ body
     position: relative;
     border-radius: 25px;
     background: #F6F6F6;
-    padding: 22px 27px;
+    padding: 72px 27px;
     width: 50%;
-    height: 60%;
+    margin-top: 100px;
 }
 
 .add-department-form__title

@@ -1,0 +1,39 @@
+.worker-card
+{
+    margin: 20px 89px 67px 89px;
+    padding: 46px 52px;
+
+    background: #F9F9F9;
+    border: 1px solid #414141;
+    border-radius: 10px;
+
+    display: flex;
+}
+
+.worker-card__left_side
+{
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+
+    width: 50%;
+}
+
+.worker-card__row
+{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.worker-card__right_side
+{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.worker-card__title
+{
+    margin: 67px 89px 10px;
+}

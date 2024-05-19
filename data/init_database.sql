@@ -12,7 +12,7 @@ CREATE TABLE department
 
 CREATE TABLE worker
 (
-    worker_id       INT UNSIGNED AUTO_INCREMENT,
+    worker_id     INT UNSIGNED AUTO_INCREMENT,
     full_name     VARCHAR(255) NOT NULL,
     job_title     VARCHAR(100) NOT NULL,
     phone         VARCHAR(30)  NOT NULL,
@@ -21,10 +21,12 @@ CREATE TABLE worker
     birth_date    DATETIME     NOT NULL,
     hire_date     DATETIME     NOT NULL,
     description   VARCHAR(500),
+    avatar_path    VARCHAR(100),
     department_id INT UNSIGNED NOT NULL,
     PRIMARY KEY (worker_id),
     CONSTRAINT worker_department_fkey
         FOREIGN KEY (department_id)
             REFERENCES department (department_id)
+            ON DELETE CASCADE
 )
 ;

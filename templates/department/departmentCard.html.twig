@@ -6,12 +6,17 @@
 <link rel="stylesheet" href="/css/departmentList.css"/>
 {% endblock %}
 
+{% block javascripts %}
+    <script type="application/javascript" src="/js/worker.js" defer></script>
+{% endblock %}
+
 {% block body %}
-<header class="header"></header>
 <section class="department-list">
     <div class="department-list__header">
-        <h1 class="department-list__title">Список сотрудников</h1>
-        <button onclick="location.href='/worker/add';" class="department-list__add-button">Добавить работника</button>
+        <h1 class="department-list__title">
+            <a href="{{ path('departments_page') }}" class="bread-crumbs pointer">Филиалы</a> > {{ department.city }}, {{ department.address }}
+        </h1>
+        <button onclick="location.href='/worker/add/{{ department.id }}';" class="department-list__add-button">Добавить работника</button>
     </div>
     <table class="department-list__table">
         <thead class="department-list__table-header">
@@ -22,19 +27,8 @@
             <th class="department-list__delete-button"></th>
         </tr>
         </thead>
-        <tbody>
-        {% for worker in department.workers %}
-        <tr class="department-list__row">
-            <td class="department-list__full-name">{{ worker.fullName }}</td>
-            <td class="department-list__job-title">{{ worker.jobTitle }}</td>
-            <td class="department-list__edit-button">
-                <button class="button"><img src="/edit_button.svg"  alt="edit button"/></button>
-            </td>
-            <td class="department-list__delete-button">
-                <button class="button"><img src="/delete_button.svg"  alt="delete button"/></button>
-            </td>
-        </tr>
-        {% endfor %}
+        <tbody id="tbody">
+        {% include '/department/workers.html.twig' %}
         </tbody>
     </table>
 </section>

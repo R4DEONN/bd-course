@@ -1,0 +1,12 @@
+{% for worker in workers %}
+    <tr onclick="location.href = '/worker/{{ worker.id }}'" class="department-list__row department-list__row_pointer">
+        <td class="department-list__full-name">{{ worker.fullName }}</td>
+        <td class="department-list__job-title">{{ worker.jobTitle }}</td>
+        <td class="department-list__edit-button">
+            <button data-department-id="{{ worker.departmentId }}"  data-worker-id="{{ worker.id }}" class="edit-button button"><img src="/edit_button.svg"  alt="edit button"/></button>
+        </td>
+        <td class="department-list__delete-button">
+            <button data-worker-id="{{ worker.id }}" class="delete-button button"><img src="/delete_button.svg"  alt="delete button"/></button>
+        </td>
+    </tr>
+{% endfor %}

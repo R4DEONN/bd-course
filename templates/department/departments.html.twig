@@ -1,0 +1,15 @@
+{% for department in departments %}
+<tr onclick="location.href = '/department/{{ department.id }}'" class="department-list__row department-list__row_pointer">
+    <td class="department-list__city">{{ department.city }}</td>
+    <td class="department-list__address">{{ department.address }}</td>
+    <td class="department-list__workers-count">{{ department.workersCount }}</td>
+    <td class="department-list__edit-button">
+        <button data-department-id="{{ department.id }}" class="button edit-button"><img src="/edit_button.svg" alt="edit button"/></button>
+    </td>
+    <td class="department-list__delete-button">
+        <button data-department-id="{{ department.id }}" class="button delete-button">
+            <img src="/delete_button.svg" alt="delete button"/>
+        </button>
+    </td>
+</tr>
+{% endfor %}

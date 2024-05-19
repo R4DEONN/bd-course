@@ -1,7 +1,14 @@
 .header
 {
-    height: 75px;
     background: #3CB46E;
+    padding: 30px 162px;
+    width: 100%;
+}
+
+.logo
+{
+    color: #000000;
+    text-decoration: none;
 }
 
 .department-list
@@ -13,11 +20,6 @@
 {
     display: flex;
     justify-content: space-between;
-}
-
-.department-list__title
-{
-    font: 400 32px/1.23 "Roboto", sans-serif;
 }
 
 .department-list__add-button
@@ -51,6 +53,11 @@
 }
 
 .department-list__row_pointer
+{
+    cursor: pointer;
+}
+
+.pointer
 {
     cursor: pointer;
 }

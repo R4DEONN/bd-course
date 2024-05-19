@@ -1,45 +1,33 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Entity\Data;
 
-class Department
+class DepartmentData
 {
-	private ?int $id;
+	private int $id;
 	private string $city;
 	private string $address;
+	private int $workersCount;
 
 	/**
-	 * @param ?int $id
+	 * @param int $id
 	 * @param string $city
 	 * @param string $address
+	 * @param int $workersCount
 	 */
-	public function __construct(?int $id, string $city, string $address)
+	public function __construct(int $id, string $city, string $address, int $workersCount)
 	{
-		if ($city === '')
-		{
-			throw new \InvalidArgumentException("City cannot be empty");
-		}
-
-		if ($address === '')
-		{
-			throw new \InvalidArgumentException("Address cannot be empty");
-		}
-
 		$this->id = $id;
 		$this->city = $city;
 		$this->address = $address;
-	}
-
-	public function assignIdentifier(int $id): void
-	{
-		$this->id = $id;
+		$this->workersCount = $workersCount;
 	}
 
 	/**
-	 * @return ?int
+	 * @return int
 	 */
-	public function getId(): ?int
+	public function getId(): int
 	{
 		return $this->id;
 	}
@@ -58,5 +46,13 @@ class Department
 	public function getCity(): string
 	{
 		return $this->city;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getWorkersCount(): int
+	{
+		return $this->workersCount;
 	}
 }

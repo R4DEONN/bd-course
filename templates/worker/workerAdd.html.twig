@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Worker{% endblock %}
+
+{% block stylesheets %}
+	<link rel="stylesheet" href="/css/departmentAdd.css"/>
+	<link rel="stylesheet" href="/css/departmentList.css"/>
+{% endblock %}
+
+{% block body %}
+	<section class="add-department-form">
+		<h1 class="department-list__title">
+			<a href="{{ path('departments_page') }}" class="bread-crumbs pointer">Филиалы</a>
+			>
+			<a href="/department/{{ department.id }}" class="bread-crumbs pointer">{{ department.city }}, {{ department.address }}</a>
+			>
+			{% if app.request.get('_route') == 'edit_worker_page' %}Редактирование работника
+			{% elseif app.request.get('_route') == 'edit_worker' %}Добавление работника
+			{% endif %}
+		</h1>
+		<form enctype="multipart/form-data" method="post" action="{{ worker is defined ? '/department/' ~ worker.departmentId ~ '/worker/edit/' ~ worker.id : '/worker/add/' ~ department.id }}">
+			<div class="add-department-form__row">
+				<label class="add-department-form__label" for="fullName">ФИО</label>
+				<input class="add-department-form__input" name="fullName" id="fullName" type="text" required value="{{ worker is defined ? worker.fullName : '' }}"/>
+			</div>
+			<div class="add-department-form__row">
+				<label class="add-department-form__label" for="jobTitle">Должность</label>
+				<input class="add-department-form__input" name="jobTitle" id="jobTitle" type="text" required value="{{ worker is defined ? worker.jobTitle : '' }}"/>
+			</div>
+			<div class="add-department-form__row">
+				<label class="add-department-form__label" for="phone">Телефон</label>
+				<input class="add-department-form__input" name="phone" id="phone" type="tel" required value="{{ worker is defined ? worker.phone : '' }}"/>
+			</div>
+			<div class="add-department-form__row">
+				<label class="add-department-form__label" for="email">Email</label>
+				<input class="add-department-form__input" name="email" id="email" type="email" required value="{{ worker is defined ? worker.email : '' }}"/>
+			</div>
+			<div class="add-department-form__row">
+				<label class="add-department-form__label" for="isMale">Пол</label>
+				<div>
+					<label class="add-department-form__label" for="male">Мужчина</label>
+					<input class="add-department-form__input" name="isMale" id="male" type="radio" value="1" {{ worker is defined ? worker.male == 1 ? 'checked' : '' : '' }}
+						   required/>
+					<label class="add-department-form__label" for="female">Женщина</label>
+					<input class="add-department-form__input" name="isMale" id="female" type="radio" value="0" {{ worker is defined ? worker.male == 0 ? 'checked' : '' : '' }}
+						   required/>
+				</div>
+			</div>
+			<div class="add-department-form__row">
+				<label class="add-department-form__label" for="birthDate">День рождения</label>
+				<input class="add-department-form__input" name="birthDate" id="birthDate" type="date" required value="{{ worker is defined ? worker.birthDate|date("Y-m-d") : '' }}"/>
+			</div>
+			<div class="add-department-form__row">
+				<label class="add-department-form__label" for="hireDate">Дата найма</label>
+				<input class="add-department-form__input" name="hireDate" id="hireDate" type="date" required value="{{ worker is defined ? worker.hireDate|date("Y-m-d") : '' }}"/>
+			</div>
+			<div class="add-department-form__row">
+				<label class="add-department-form__label" for="description">Описание</label>
+				<textarea class="add-department-form__input" name="description" id="description">{{ worker is defined ? worker.description : '' }}</textarea>
+			</div>
+			<div class="add-department-form__row">
+				<label class="add-department-form__label" for="avatar">Фото</label>
+				<input class="add-department-form__input" name="avatar" id="avatar" type="file"/>
+			</div>
+			<input class="add-department-form__add-button button" type="submit" value="Добавить">
+		</form>
+	</section>
+{% endblock %}

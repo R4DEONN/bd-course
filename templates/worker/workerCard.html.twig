@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Worker Card{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/departmentList.css"/>
+    <link rel="stylesheet" href="/css/workerCard.css"/>
+{% endblock %}
+
+{% block body %}
+    <h1 class="worker-card__title">
+        <a href="{{ path('departments_page') }}" class="bread-crumbs pointer">Филиалы</a>
+        >
+        <a href="/department/{{ worker.departmentId }}" class="bread-crumbs pointer">{{ worker.city }}, {{ worker.address }}</a>
+        > {{ worker.fullName }}
+    </h1>
+    <div class="worker-card">
+        <div class="worker-card__left_side">
+            <div class="worker-card__row">
+                <span>ФИО</span>
+                <span>{{ worker.fullName }}</span>
+            </div>
+            <div class="worker-card__row">
+                <span>Должность</span>
+                <span>{{ worker.jobTitle }}</span>
+            </div>
+            <div class="worker-card__row">
+                <span>Телефон</span>
+                <span>{{ worker.phone }}</span>
+            </div>
+            <div class="worker-card__row">
+                <span>Почта</span>
+                <span>{{ worker.email }}</span>
+            </div>
+            <div class="worker-card__row">
+                <span>Пол</span>
+                <span>{{ worker.male ? "Мужчина" : "Женщина" }}</span>
+            </div>
+            <div class="worker-card__row">
+                <span>Дата рождения</span>
+                <span>{{ worker.birthDate|date("d.m.Y") }}</span>
+            </div>
+            <div class="worker-card__row">
+                <span>Дата найма</span>
+                <span>{{ worker.hireDate|date("d.m.Y") }}</span>
+            </div>
+        </div>
+        <div class="worker-card__right_side">
+            <img src="/uploads/{{ worker.avatarPath }}" alt="avatar" />
+            <div class="worker-card__row">
+                <span>Комментарий</span>
+                <span>{{ worker.description }}</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}

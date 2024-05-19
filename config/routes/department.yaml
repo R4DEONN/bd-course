@@ -5,8 +5,18 @@ departments_page:
 
 add_department_page:
   path: /department/add
-  controller: App\Controller\DepartmentController::getAddDepartmentPage
+  controller: App\Controller\DepartmentController::showAddDepartmentPage
   methods: GET
+
+edit_department_page:
+  path: /department/edit/{departmentId}
+  controller: App\Controller\DepartmentController::showEditDepartmentPage
+  methods: GET
+
+edit_department:
+  path: /department/edit/{departmentId}
+  controller: App\Controller\DepartmentController::editDepartment
+  methods: POST
 
 add_department:
   path: /department/add
@@ -16,9 +26,41 @@ add_department:
 department_page:
   path: /department/{departmentId}
   methods: GET
-  controller: App\Controller\DepartmentController::getDepartmentPage
+  controller: App\Controller\DepartmentController::showDepartmentPage
 
 delete_department:
   path: /department/delete/{departmentId}
   controller: App\Controller\DepartmentController::deleteDepartment
+  methods: DELETE
+
+add_worker_page:
+  path: /worker/add/{departmentId}
+  controller: App\Controller\WorkerController::showAddWorkerPage
+  methods: GET
+
+add_worker:
+  path: /worker/add/{departmentId}
+  controller: App\Controller\WorkerController::addWorker
   methods: POST
+
+edit_worker_page:
+  path: /department/{departmentId}/worker/edit/{workerId}
+  controller: App\Controller\WorkerController::showWorkerEditPage
+  methods: GET
+
+edit_worker:
+  path: /department/{departmentId}/worker/edit/{workerId}
+  controller: App\Controller\WorkerController::editWorker
+  methods: POST
+
+worker_page:
+  path: /worker/{workerId}
+  controller: App\Controller\WorkerController::showWorkerCardPage
+  methods: GET
+  requirements:
+    workerId: '\d+'
+
+delete_worker:
+  path: /worker/delete/{workerId}
+  controller: App\Controller\WorkerController::deleteWorker
+  methods: DELETE

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Department List{% endblock %}
+{% block title %}Create Worker{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" href="/css/departmentAdd.css"/>
@@ -8,19 +8,36 @@
 {% endblock %}
 
 {% block body %}
-    {% parent() %}
-    <section class="add-department-form">
-        <h1 class="add-department-form__title">Добавить филиал</h1>
-        <form method="post" action="/department/add">
-            <div class="add-department-form__row">
-                <label class="add-department-form__label" for="city">Город</label>
-                <input class="add-department-form__input" name="city" id="city" type="text" />
-            </div>
-            <div class="add-department-form__row">
-                <label class="add-department-form__label" for="address">Адрес</label>
-                <input class="add-department-form__input" name="address" id="address" type="text" />
-            </div>
-            <input class="add-department-form__add-button button" type="submit" value="Добавить">
-        </form>
-    </section>
+<section class="add-department-form">
+    <h1 class="department-list__title">
+        <a href="{{ path('departments_page') }}" class="bread-crumbs pointer">Филиалы</a> >
+        {% if app.request.get('_route') == 'edit_department_page' %}Редактирование филиала
+        {% elseif app.request.get('_route') == 'add_affiliate_page' %}Добавление филиала
+        {% endif %}
+    </h1>
+    <form method="post" action="/department/{{ department is defined ? 'edit/' ~ department.id : 'add' }}">
+        <div class="add-department-form__row">
+            <label class="add-department-form__label" for="city">Город</label>
+            <input
+                    class="add-department-form__input"
+                    name="city"
+                    id="city"
+                    type="text"
+                    value="{{ department is defined ? department.city : '' }}"
+
+            />
+        </div>
+        <div class="add-department-form__row">
+            <label class="add-department-form__label" for="address">Адрес</label>
+            <input
+                    class="add-department-form__input"
+                    name="address"
+                    id="address"
+                    type="text"
+                    value="{{ department is defined ? department.address : '' }}"
+            />
+        </div>
+        <input class="add-department-form__add-button button" type="submit" value="{% if app.request.get('_route') == 'edit_department_page' %}Обновить{% elseif app.request.get('_route') == 'add_affiliate_page' %}Добавить{% endif %}">
+    </form>
+</section>
 {% endblock %}
