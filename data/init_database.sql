@@ -1,6 +1,9 @@
 CREATE DATABASE bd_course;
 USE bd_course;
 
+CREATE DATABASE bd_course_test;
+USE bd_course_test;
+
 CREATE TABLE department
 (
     department_id INT UNSIGNED AUTO_INCREMENT,

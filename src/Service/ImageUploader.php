@@ -7,7 +7,7 @@ use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class ImageService
+class ImageUploader
 {
     private const UPLOADS_PATH = DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'uploads';
 

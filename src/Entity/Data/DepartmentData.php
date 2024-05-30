@@ -5,23 +5,13 @@ namespace App\Entity\Data;
 
 class DepartmentData
 {
-	private int $id;
-	private string $city;
-	private string $address;
-	private int $workersCount;
-
-	/**
-	 * @param int $id
-	 * @param string $city
-	 * @param string $address
-	 * @param int $workersCount
-	 */
-	public function __construct(int $id, string $city, string $address, int $workersCount)
+	public function __construct(
+		private int    $id,
+		private string $city,
+		private string $address,
+		private int    $workersCount,
+	)
 	{
-		$this->id = $id;
-		$this->city = $city;
-		$this->address = $address;
-		$this->workersCount = $workersCount;
 	}
 
 	/**

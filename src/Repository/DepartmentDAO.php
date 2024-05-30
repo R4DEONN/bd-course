@@ -29,7 +29,7 @@ class DepartmentDAO
 			    COUNT(worker_id) as worker_count
 			FROM department
 				LEFT JOIN bd_course.worker w on department.department_id = w.department_id
-			GROUP BY department.department_id, department.city, department.address
+			GROUP BY department.department_id
 			ORDER BY department_id
 			SQL;
 

@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Dotenv\Dotenv;
 
-$dotenv = new Dotenv();
-$dotenv->load(__DIR__ . '/../../.env');
+(new Dotenv())->load(__DIR__ . '/../../.env');
 
 class DepartmentController extends AbstractController
 {
@@ -37,6 +36,10 @@ class DepartmentController extends AbstractController
 	public function showDepartmentPage(int $departmentId): Response
 	{
 		$department = $this->departmentRepository->findById($departmentId);
+		if (!$department)
+		{
+			throw new \InvalidArgumentException("The department with id = " . $departmentId . " does not exist");
+		}
 		$workers = $this->workerRepository->findWorkersByDepartmentId($departmentId);
 		return $this->render('department/departmentCard.html.twig', [
 			'department' => $department,

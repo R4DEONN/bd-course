@@ -7,7 +7,7 @@ use App\Entity\Worker;
 use App\Repository\DepartmentRepository;
 use App\Repository\WorkerDAO;
 use App\Repository\WorkerRepository;
-use App\Service\ImageService;
+use App\Service\ImageUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,13 +17,13 @@ class WorkerController extends AbstractController
 	private DepartmentRepository $departmentRepository;
 	private WorkerRepository $workerRepository;
 	private WorkerDAO $workerDAO;
-	private ImageService $imageService;
+	private ImageUploader $imageService;
 
 	public function __construct(
 		DepartmentRepository $departmentRepository,
 		WorkerRepository $workerRepository,
 		WorkerDAO $workerDAO,
-		ImageService $imageService
+		ImageUploader $imageService
 	) {
 		$this->departmentRepository = $departmentRepository;
 		$this->workerRepository = $workerRepository;
@@ -64,9 +64,9 @@ class WorkerController extends AbstractController
 			departmentId: $departmentId
 		);
 
-		$this->workerRepository->save($newWorker);
-		return $this->redirectToRoute('department_page', [
-			'departmentId' => $departmentId,
+		$id = $this->workerRepository->save($newWorker);
+		return $this->redirectToRoute('worker_page', [
+			'workerId' => $id,
 		]);
 	}
 
@@ -76,6 +76,10 @@ class WorkerController extends AbstractController
 	public function showWorkerCardPage(int $workerId): Response
 	{
 		$worker = $this->workerDAO->findOneById($workerId);
+		if (!$worker)
+		{
+			throw new \InvalidArgumentException('The worker id is not available');
+		}
 		return $this->render('worker/workerCard.html.twig', [
 			'worker' => $worker,
 		]);
